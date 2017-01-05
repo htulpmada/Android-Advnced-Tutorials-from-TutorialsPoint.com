@@ -42,6 +42,13 @@ public class MainActivity extends AppCompatActivity {
                 updateNotification();
             }
         });
+
+        Button bigBtn = (Button) findViewById(R.id.big);
+        bigBtn.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View view) {
+                displayBigNotification();
+            }
+        });
     }
 
     protected void displayNotification(){
@@ -52,8 +59,42 @@ public class MainActivity extends AppCompatActivity {
         mBuilder.setTicker("New Message Alert!!");
         mBuilder.setSmallIcon(R.drawable.stick);
         mBuilder.setNumber(++numMessages);
+
         Intent resultIntent = new Intent(this, NotificationView.class);
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
+        stackBuilder.addParentStack(NotificationView.class);
+        stackBuilder.addNextIntent(resultIntent);
+        PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+        mBuilder.setContentIntent(resultPendingIntent);
+        mNotificationManager = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
+        mNotificationManager.notify(notificationID,mBuilder.build());
+    }
+
+    protected void displayBigNotification(){
+        Log.i("Start","notification");
+        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this);
+        mBuilder.setContentTitle("New Message");
+        mBuilder.setContentText("You've recieved a BIG message");
+        mBuilder.setTicker("New Big Message Alert!!");
+        mBuilder.setSmallIcon(R.drawable.stick);
+        mBuilder.setNumber(++numMessages);
+
+        NotificationCompat.InboxStyle inboxStyle = new NotificationCompat.InboxStyle();
+        String[] events = {
+                new String("This is the First Line...."),
+                new String("Second Line..."),
+                new String("Third..."),
+                new String("4th line.."),
+                new String("5th |.. "),
+                new String("6th..")
+        };
+        inboxStyle.setBigContentTitle("BIG CONTENT TITLE:");
+        for(String s: events){inboxStyle.addLine(s);}
+        mBuilder.setStyle(inboxStyle);
+
+        Intent resultIntent = new Intent(this, NotificationView.class);
+        TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
+        stackBuilder.addParentStack(NotificationView.class);
         stackBuilder.addNextIntent(resultIntent);
         PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
         mBuilder.setContentIntent(resultPendingIntent);
@@ -63,7 +104,10 @@ public class MainActivity extends AppCompatActivity {
 
     protected void cancelNotification(){
         Log.i("Cancel", "notification");
-        mNotificationManager.cancel(notificationID);
+        try{
+            mNotificationManager.cancel(notificationID);
+        }
+        catch(NullPointerException n){n.printStackTrace();}
     }
 
     protected void updateNotification(){
