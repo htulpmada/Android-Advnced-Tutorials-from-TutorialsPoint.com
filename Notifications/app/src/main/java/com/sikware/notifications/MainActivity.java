@@ -88,6 +88,7 @@ public class MainActivity extends AppCompatActivity {
                 new String("5th |.. "),
                 new String("6th..")
         };
+        
         inboxStyle.setBigContentTitle("BIG CONTENT TITLE:");
         for(String s: events){inboxStyle.addLine(s);}
         mBuilder.setStyle(inboxStyle);
