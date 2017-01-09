@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">SmsApp</string>
+    <string name="phone_label">Enter Phone Number</string>
+    <string name="sms_label">Enter Sms Message</string>
+    <string name="send_sms_label">Send Sms</string>
+</resources>
