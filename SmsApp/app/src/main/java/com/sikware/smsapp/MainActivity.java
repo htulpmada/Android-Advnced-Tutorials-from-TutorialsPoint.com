@@ -58,7 +58,8 @@ public class MainActivity extends AppCompatActivity {
 
             smsManager.sendTextMessage(phoneNo, null, message, null, null);
             Toast.makeText(getApplicationContext(), "SMS Sent.", Toast.LENGTH_LONG).show();
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             Toast.makeText(getApplicationContext(), e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
             e.printStackTrace();
         }
